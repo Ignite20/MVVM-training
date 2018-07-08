@@ -25,20 +25,30 @@ public class TodoRepository {
     }
 
     public void insert(ToDo todo) {
-        new insertAsyncTask(mTodoDao).execute(todo);
+        new insertAsyncTask(mTodoDao, false).execute(todo);
+    }
+
+    public void update(ToDo todo){
+        new insertAsyncTask(mTodoDao, true).execute(todo);
     }
 
     private static class insertAsyncTask extends AsyncTask<ToDo, Void, Void> {
 
         private TodoDao mAsyncTaskDao;
 
-        insertAsyncTask(TodoDao dao) {
+        private boolean update;
+        insertAsyncTask(TodoDao dao, boolean update) {
+            this.update = update;
             mAsyncTaskDao = dao;
         }
 
         @Override
         protected Void doInBackground(ToDo... toDos) {
-            mAsyncTaskDao.insert(toDos[0]);
+            if(update){
+                mAsyncTaskDao.update(toDos[0]);
+            }else {
+                mAsyncTaskDao.insert(toDos[0]);
+            }
             return null;
         }
     }

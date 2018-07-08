@@ -1,30 +1,39 @@
 package com.studio.ember.mvvm_training.screens.todo;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.ImageView;
 
 import com.studio.ember.mvvm_training.R;
 import com.studio.ember.mvvm_training.database.entities.ToDo;
+import com.studio.ember.mvvm_training.utils.helper.ItemTouchHelperAdapter;
+import com.studio.ember.mvvm_training.utils.helper.ItemTouchHelperViewHolder;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
+import butterknife.OnCheckedChanged;
 
-public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoViewHolder> {
+public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoViewHolder> implements ItemTouchHelperAdapter {
 
     private final LayoutInflater mInflater;
     private List<ToDo> toDos; // Cached copy of words
 
+    private TaskListener listener;
 
-    TodoListAdapter(Context context) {
+    TodoListAdapter(Context context, TaskListener listener) {
         this.mInflater = LayoutInflater.from(context);
+        this.listener = listener;
     }
 
     @NonNull
@@ -34,15 +43,24 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoVi
         return new ToDoViewHolder(itemView);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
-    public void onBindViewHolder(@NonNull ToDoViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ToDoViewHolder holder, int position) {
         if (toDos != null) {
-            ToDo current = toDos.get(position);
-            holder.cb_todo.setText(current.getTask());
-        } else {
-            // Covers the case of data not being ready yet.
-            holder.cb_todo.setText("No todo");
+            holder.setItem(toDos.get(position));
+            holder.iv_handle.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    if (motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                        listener.onStartDrag(holder);
+                    }
+                    return true;
+                }
+            });
+
+
         }
+
     }
 
     @Override
@@ -58,23 +76,83 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoVi
         notifyDataSetChanged();
     }
 
+    List<ToDo> getToDos(){
+        return this.toDos;
+    }
+
+    @Override
+    public void onItemMove(int fromPosition, int toPosition) {
+        ToDo prev = toDos.remove(fromPosition);
+        notifyItemMoved(fromPosition, toPosition);
+        toDos.add(toPosition, prev);
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+
+    }
+
+    interface TaskListener{
+        /**
+         * Called when a view is checked bt the user
+         * @param todo the to-do to be updated
+         */
+        void onCheckedListener(ToDo todo);
+        /**
+         * Called when a view is requesting a start of a drag.
+         *
+         * @param viewHolder The holder of the view to drag.
+         */
+        void onStartDrag(RecyclerView.ViewHolder viewHolder);
+
+        void onDragFinished(List<ToDo> toDos);
+    }
+
     /**
      * To-do ViewHolder
      */
-    class ToDoViewHolder extends RecyclerView.ViewHolder {
+    class ToDoViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
 
-        private View view;
+        public final View view;
 
         @BindView(R.id.cb_todo)
-        TextView cb_todo;
+        CheckBox cb_todo;
+
+        @BindView(R.id.iv_handle)
+        ImageView iv_handle;
 
 
-        private Unbinder unbinder;
         private ToDoViewHolder(View itemView) {
             super(itemView);
             this.view = itemView;
-            unbinder = ButterKnife.bind(this,view);
+            ButterKnife.bind(this,view);
         }
+
+        void setItem(ToDo todo){
+            this.cb_todo.setText(todo.getTask());
+            this.cb_todo.setChecked(todo.isDone());
+
+        }
+
+        @OnCheckedChanged(R.id.cb_todo)
+        void onCheckedChange(CompoundButton button, boolean checked){
+            ToDo todo = toDos.get(getAdapterPosition());
+            todo.setDone(checked);
+            listener.onCheckedListener(toDos.get(getAdapterPosition()));
+        }
+
+        @Override
+        public void onItemSelected() {
+            itemView.setBackgroundColor(Color.LTGRAY);
+        }
+
+        @Override
+        public void onItemClear() {
+            itemView.setBackgroundColor(0);
+            listener.onDragFinished(toDos);
+        }
+
+
     }
 
 

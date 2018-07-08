@@ -13,8 +13,7 @@
     <style name="to_do_text">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">26dp</item>
-        <item name="android:textSize">24sp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:layout_marginBottom">0dp</item>
-        <item name="android:paddingLeft">8dp</item>
     </style>
 </resources>

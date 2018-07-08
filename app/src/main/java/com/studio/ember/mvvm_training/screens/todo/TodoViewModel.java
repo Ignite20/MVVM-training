@@ -37,4 +37,8 @@ public class TodoViewModel extends AndroidViewModel {
     public void insert(ToDo todo) {
         mRepository.insert(todo);
     }
+
+    public void update(ToDo todo){
+        mRepository.update(todo);
+    }
 }

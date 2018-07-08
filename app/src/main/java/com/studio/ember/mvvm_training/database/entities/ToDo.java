@@ -6,7 +6,7 @@ import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 @Entity(tableName = "todo_table")
-public class ToDo {
+public class ToDo extends BaseModel{
 
     //region FIELDS
     @PrimaryKey(autoGenerate = true)
@@ -18,7 +18,8 @@ public class ToDo {
     @ColumnInfo(name = "task_order")
     private int taskOrder;
 
-    // endregion FEILDS
+    private boolean done;
+    // endregion FIELDS
 
     public ToDo(String task) {
         this.task = task;
@@ -48,5 +49,11 @@ public class ToDo {
         this.taskOrder = taskOrder;
     }
 
+    public boolean isDone() {
+        return done;
+    }
 
+    public void setDone(boolean done) {
+        this.done = done;
+    }
 }
