@@ -3,6 +3,7 @@ package com.studio.ember.mvvm_training.screens.todo;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -83,13 +84,16 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoVi
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
         ToDo prev = toDos.remove(fromPosition);
+        prev.setTaskOrder(toPosition);
+
         notifyItemMoved(fromPosition, toPosition);
         toDos.add(toPosition, prev);
+
     }
 
     @Override
     public void onItemDismiss(int position) {
-
+        listener.onItemDeleted(toDos.get(position));
     }
 
     interface TaskListener{
@@ -106,6 +110,8 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoVi
         void onStartDrag(RecyclerView.ViewHolder viewHolder);
 
         void onDragFinished(List<ToDo> toDos);
+
+        void onItemDeleted(ToDo toDo);
     }
 
     /**
@@ -131,6 +137,12 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoVi
         void setItem(ToDo todo){
             this.cb_todo.setText(todo.getTask());
             this.cb_todo.setChecked(todo.isDone());
+            if (todo.isDone()) {
+                cb_todo.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            } else {
+                cb_todo.setPaintFlags(Paint.LINEAR_TEXT_FLAG);
+            }
+
 
         }
 

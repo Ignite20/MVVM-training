@@ -41,4 +41,12 @@ public class TodoViewModel extends AndroidViewModel {
     public void update(ToDo todo){
         mRepository.update(todo);
     }
+
+    public void update(List<ToDo> toDos){
+        mRepository.update(toDos);
+    }
+
+    public void delete(ToDo toDo){
+        mRepository.delete(toDo);
+    }
 }

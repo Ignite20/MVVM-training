@@ -32,6 +32,15 @@ public class TodoRepository {
         new insertAsyncTask(mTodoDao, true).execute(todo);
     }
 
+    public void update(List<ToDo> toDos){
+        if(toDos != null)
+            new insertAsyncList(mTodoDao).execute(toDos);
+    }
+
+    public void delete(ToDo toDo){
+        new deleteAsyncToDo(mTodoDao).execute(toDo);
+    }
+
     private static class insertAsyncTask extends AsyncTask<ToDo, Void, Void> {
 
         private TodoDao mAsyncTaskDao;
@@ -52,4 +61,41 @@ public class TodoRepository {
             return null;
         }
     }
+
+    private static class insertAsyncList extends AsyncTask<List<ToDo>, Void, Void> {
+
+        private TodoDao mAsyncTaskDao;
+
+
+        public insertAsyncList(TodoDao mAsyncTaskDao) {
+            this.mAsyncTaskDao = mAsyncTaskDao;
+        }
+
+        @Override
+        protected Void doInBackground(List<ToDo>... lists) {
+            for (int i = 0; i < lists[0].size(); i++) {
+                ToDo todo = lists[0].get(i);
+                todo.setTaskOrder(i);
+                mAsyncTaskDao.update(todo);
+            }
+            return null;
+        }
+    }
+
+    private static class deleteAsyncToDo extends AsyncTask<ToDo, Void, Void> {
+
+        private TodoDao mAsyncTaskDao;
+
+
+        public deleteAsyncToDo(TodoDao mAsyncTaskDao) {
+            this.mAsyncTaskDao = mAsyncTaskDao;
+        }
+
+        @Override
+        protected Void doInBackground(ToDo... toDos) {
+            mAsyncTaskDao.delete(toDos[0]);
+            return null;
+        }
+    }
+
 }

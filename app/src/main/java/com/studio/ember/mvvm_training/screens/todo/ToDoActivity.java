@@ -68,6 +68,7 @@ public class ToDoActivity extends AppCompatActivity implements TodoListAdapter.T
             @Override
             public void onChanged(@Nullable List<ToDo> toDos) {
                 adapter.setToDos(toDos);
+
             }
         });
 
@@ -104,9 +105,12 @@ public class ToDoActivity extends AppCompatActivity implements TodoListAdapter.T
     @Override
     public void onDragFinished(List<ToDo> toDos) {
         Log.d("updated todo list", toDos.toString());
-        Log.d("items from adapter", adapter.getToDos().toString());
-        adapter.notifyDataSetChanged();
-        //TODO: Save order state in database
+        todoViewModel.update(toDos);
     }
 
+    @Override
+    public void onItemDeleted(ToDo toDo) {
+        todoViewModel.delete(toDo);
+        todoViewModel.update(adapter.getToDos());
+    }
 }
