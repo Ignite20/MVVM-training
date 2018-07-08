@@ -32,6 +32,7 @@ public abstract class TodoDatabase extends RoomDatabase {
         }
     };
 
+
     public static TodoDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (TodoDatabase.class) {

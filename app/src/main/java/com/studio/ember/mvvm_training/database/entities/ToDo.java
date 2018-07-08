@@ -13,7 +13,6 @@ public class ToDo {
     @ColumnInfo(index = true)
     private int id;
 
-    @NonNull
     private String task;
 
     @ColumnInfo(name = "task_order")
@@ -25,6 +24,9 @@ public class ToDo {
         this.task = task;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getId() {
         return id;
@@ -45,5 +47,6 @@ public class ToDo {
     public void setTaskOrder(int taskOrder) {
         this.taskOrder = taskOrder;
     }
+
 
 }

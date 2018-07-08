@@ -1,4 +1,4 @@
-package com.studio.ember.mvvm_training.viewmodels;
+package com.studio.ember.mvvm_training.screens.todo;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
