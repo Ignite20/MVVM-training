@@ -9,7 +9,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -48,13 +47,14 @@ public class ToDoActivity extends AppCompatActivity implements TodoListAdapter.T
 
         // Bind the view
         ButterKnife.bind(this);
-
+        et_add_todo.clearFocus();
         // Set the recyclerview
         adapter = new TodoListAdapter(this, this);
         this.linearLayoutManager = new LinearLayoutManager(this);
         rv_todo_list.setAdapter(adapter);
         rv_todo_list.setLayoutManager(this.linearLayoutManager);
         rv_todo_list.addItemDecoration(new DividerItemDecoration(rv_todo_list.getContext(),this.linearLayoutManager.getOrientation()));
+
 
         // Set ItemTouchHelper
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
@@ -68,7 +68,6 @@ public class ToDoActivity extends AppCompatActivity implements TodoListAdapter.T
             @Override
             public void onChanged(@Nullable List<ToDo> toDos) {
                 adapter.setToDos(toDos);
-
             }
         });
 
@@ -86,31 +85,24 @@ public class ToDoActivity extends AppCompatActivity implements TodoListAdapter.T
             }
         });
 
-
     }
-
-    @Override
-    public void onCheckedListener(ToDo todo) {
-        Log.d("my checked todo", todo.toString());
-        // Update database with the new todo
-        todoViewModel.update(todo);
-    }
-
 
     @Override
     public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
         mItemTouchHelper.startDrag(viewHolder);
     }
 
-    @Override
-    public void onDragFinished(List<ToDo> toDos) {
-        Log.d("updated todo list", toDos.toString());
-        todoViewModel.update(toDos);
-    }
 
     @Override
     public void onItemDeleted(ToDo toDo) {
         todoViewModel.delete(toDo);
+    }
+
+
+
+    @Override
+    protected void onStop() {
         todoViewModel.update(adapter.getToDos());
+        super.onStop();
     }
 }

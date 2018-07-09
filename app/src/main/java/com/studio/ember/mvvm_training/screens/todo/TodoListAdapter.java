@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -84,8 +85,8 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoVi
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
         ToDo prev = toDos.remove(fromPosition);
+        Log.d("moving ToDo", prev.getTask());
         prev.setTaskOrder(toPosition);
-
         notifyItemMoved(fromPosition, toPosition);
         toDos.add(toPosition, prev);
 
@@ -98,18 +99,11 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoVi
 
     interface TaskListener{
         /**
-         * Called when a view is checked bt the user
-         * @param todo the to-do to be updated
-         */
-        void onCheckedListener(ToDo todo);
-        /**
          * Called when a view is requesting a start of a drag.
          *
          * @param viewHolder The holder of the view to drag.
          */
         void onStartDrag(RecyclerView.ViewHolder viewHolder);
-
-        void onDragFinished(List<ToDo> toDos);
 
         void onItemDeleted(ToDo toDo);
     }
@@ -137,20 +131,14 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoVi
         void setItem(ToDo todo){
             this.cb_todo.setText(todo.getTask());
             this.cb_todo.setChecked(todo.isDone());
-            if (todo.isDone()) {
-                cb_todo.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-            } else {
-                cb_todo.setPaintFlags(Paint.LINEAR_TEXT_FLAG);
-            }
-
-
+            paintFlag(cb_todo, todo.isDone());
         }
 
         @OnCheckedChanged(R.id.cb_todo)
         void onCheckedChange(CompoundButton button, boolean checked){
             ToDo todo = toDos.get(getAdapterPosition());
             todo.setDone(checked);
-            listener.onCheckedListener(toDos.get(getAdapterPosition()));
+            paintFlag(button, checked);
         }
 
         @Override
@@ -161,12 +149,23 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoVi
         @Override
         public void onItemClear() {
             itemView.setBackgroundColor(0);
-            listener.onDragFinished(toDos);
         }
-
-
     }
 
+    /**
+     * Method to change the text decorator
+     * It will strike through the text if the check is marked,
+     * otherwise it will leave the text as it is.
+     * @param button the button checked inside the list
+     * @param checked the state of the button
+     */
+    private void paintFlag(CompoundButton button, boolean checked) {
+        if (checked) {
+            button.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        } else {
+            button.setPaintFlags(Paint.LINEAR_TEXT_FLAG);
+        }
+    }
 
 
 }
