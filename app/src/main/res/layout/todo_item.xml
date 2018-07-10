@@ -3,25 +3,33 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    >
+    android:padding="@dimen/todo_padding_small">
+
 
     <CheckBox
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@color/gray"
         android:id="@+id/cb_todo"
         style="@style/to_do_text"
-        android:text="Kiss my sweetheart goodnight"
-        android:layout_weight="0.9"
-        />
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.1"
+        android:textAlignment="textStart" />
 
+    <EditText
+        android:id="@+id/et_todo_task"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.8"
+        android:backgroundTint="@android:color/transparent"
+        android:elegantTextHeight="true"
+        android:inputType="textMultiLine"
+        android:text="asdasdas asd as das dasdsadsa as asas dasd asd asdasdasd asdas das das asd"
+        />
     <ImageView
         android:id="@+id/iv_handle"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_vertical|end"
-        android:scaleType="center"
-        android:src="@drawable/ic_reorder_black_24dp"
+        android:layout_height="32dp"
+        android:layout_gravity="end"
         android:layout_weight="0.1"
-        />
+        android:scaleType="center"
+        android:src="@drawable/ic_reorder_black_24dp" />
 </LinearLayout>

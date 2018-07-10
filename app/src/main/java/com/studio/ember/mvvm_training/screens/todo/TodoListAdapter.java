@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.studio.ember.mvvm_training.R;
@@ -118,6 +119,9 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoVi
         @BindView(R.id.cb_todo)
         CheckBox cb_todo;
 
+        @BindView(R.id.et_todo_task)
+        EditText et_todo_task;
+
         @BindView(R.id.iv_handle)
         ImageView iv_handle;
 
@@ -129,16 +133,16 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoVi
         }
 
         void setItem(ToDo todo){
-            this.cb_todo.setText(todo.getTask());
+            this.et_todo_task.setText(todo.getTask());
             this.cb_todo.setChecked(todo.isDone());
-            paintFlag(cb_todo, todo.isDone());
+            paintFlag(et_todo_task, todo.isDone());
         }
 
         @OnCheckedChanged(R.id.cb_todo)
         void onCheckedChange(CompoundButton button, boolean checked){
             ToDo todo = toDos.get(getAdapterPosition());
             todo.setDone(checked);
-            paintFlag(button, checked);
+            paintFlag(et_todo_task, checked);
         }
 
         @Override
@@ -159,7 +163,7 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoVi
      * @param button the button checked inside the list
      * @param checked the state of the button
      */
-    private void paintFlag(CompoundButton button, boolean checked) {
+    private void paintFlag(EditText button, boolean checked) {
         if (checked) {
             button.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         } else {
