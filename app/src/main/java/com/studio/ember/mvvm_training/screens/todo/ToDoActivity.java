@@ -2,6 +2,8 @@ package com.studio.ember.mvvm_training.screens.todo;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -9,7 +11,10 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
@@ -104,5 +109,30 @@ public class ToDoActivity extends AppCompatActivity implements TodoListAdapter.T
     protected void onStop() {
         todoViewModel.update(adapter.getToDos());
         super.onStop();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if ( v instanceof EditText) {
+                if (!isPointInsideView(event.getRawX(), event.getRawY(), v)) {
+                    Log.i("", "!isPointInsideView");
+
+                    Log.i("", "dispatchTouchEvent clearFocus");
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event);
+    }
+
+    private boolean isPointInsideView(float rawX, float rawY, View v) {
+        if(v.getX() == rawX && v.getY() == rawY)
+            return true;
+        else
+            return false;
     }
 }

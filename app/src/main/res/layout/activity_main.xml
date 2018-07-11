@@ -7,7 +7,6 @@
     tools:context=".screens.todo.ToDoActivity"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    android:clickable="true"
     >
 
     <EditText
