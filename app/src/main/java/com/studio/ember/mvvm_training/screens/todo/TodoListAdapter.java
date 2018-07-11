@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -155,6 +156,7 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoVi
         @Override
         public void onItemSelected() {
             itemView.setBackgroundColor(Color.LTGRAY);
+            itemView.setBackgroundTintMode(PorterDuff.Mode.DARKEN);
         }
 
         @Override

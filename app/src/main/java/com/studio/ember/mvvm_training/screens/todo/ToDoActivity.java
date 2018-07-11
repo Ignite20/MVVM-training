@@ -3,13 +3,9 @@ package com.studio.ember.mvvm_training.screens.todo;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.content.res.Configuration;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -61,7 +57,6 @@ public class ToDoActivity extends AppCompatActivity implements TodoListAdapter.T
         this.linearLayoutManager = new LinearLayoutManager(this);
         rv_todo_list.setAdapter(adapter);
         rv_todo_list.setLayoutManager(this.linearLayoutManager);
-        rv_todo_list.addItemDecoration(new DividerItemDecoration(rv_todo_list.getContext(),this.linearLayoutManager.getOrientation()));
 
 
         // Set ItemTouchHelper
