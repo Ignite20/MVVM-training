@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -26,6 +27,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
+import butterknife.OnTextChanged;
+
+import static android.content.ContentValues.TAG;
 
 public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoViewHolder> implements ItemTouchHelperAdapter {
 
@@ -133,8 +137,9 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoVi
         }
 
         void setItem(ToDo todo){
-            this.et_todo_task.setText(todo.getTask());
             this.cb_todo.setChecked(todo.isDone());
+            this.et_todo_task.setText(todo.getTask());
+            this.et_todo_task.setEnabled(!todo.isDone());
             paintFlag(et_todo_task, todo.isDone());
         }
 
@@ -142,7 +147,15 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoVi
         void onCheckedChange(CompoundButton button, boolean checked){
             ToDo todo = toDos.get(getAdapterPosition());
             todo.setDone(checked);
+            this.et_todo_task.setEnabled(!todo.isDone());
             paintFlag(et_todo_task, checked);
+        }
+
+        @OnTextChanged(value = R.id.et_todo_task)
+        void setTaskText(Editable editable){
+            Log.d("new_string", editable.toString());
+            Log.d(TAG, "setTaskText: "+getAdapterPosition());
+            toDos.get(getAdapterPosition()).setTask(editable.toString());
         }
 
         @Override
