@@ -29,8 +29,6 @@ import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnTextChanged;
 
-import static android.content.ContentValues.TAG;
-
 public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoViewHolder> implements ItemTouchHelperAdapter {
 
     private final LayoutInflater mInflater;
@@ -139,8 +137,6 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoVi
         void setItem(ToDo todo){
             this.cb_todo.setChecked(todo.isDone());
             this.et_todo_task.setText(todo.getTask());
-            this.et_todo_task.setEnabled(!todo.isDone());
-            paintFlag(et_todo_task, todo.isDone());
         }
 
         @OnCheckedChanged(R.id.cb_todo)
@@ -153,8 +149,6 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoVi
 
         @OnTextChanged(value = R.id.et_todo_task)
         void setTaskText(Editable editable){
-            Log.d("new_string", editable.toString());
-            Log.d(TAG, "setTaskText: "+getAdapterPosition());
             toDos.get(getAdapterPosition()).setTask(editable.toString());
         }
 
