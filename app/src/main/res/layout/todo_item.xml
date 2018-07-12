@@ -32,7 +32,7 @@
         style="@style/to_do_text"
         android:backgroundTint="@android:color/transparent"
         android:elegantTextHeight="true"
-        android:inputType="textMultiLine"
+        android:inputType="textMultiLine|textCapSentences"
         android:text="asdasdas asd as das dasdsadsa as asas dasd asd asdasdasd asdas das das asd"
         />
 
