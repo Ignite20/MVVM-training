@@ -126,6 +126,8 @@ public class ToDoActivity extends AppCompatActivity implements TodoListAdapter.T
         else if(event.getAction() == MotionEvent.ACTION_SCROLL){
             clearFocus(event);
         }
+
+
         return super.dispatchTouchEvent(event);
     }
 

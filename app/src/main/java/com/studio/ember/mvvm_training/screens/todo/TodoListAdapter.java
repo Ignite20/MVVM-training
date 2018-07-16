@@ -17,9 +17,11 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.studio.ember.mvvm_training.R;
 import com.studio.ember.mvvm_training.database.entities.ToDo;
+import com.studio.ember.mvvm_training.utils.Utils;
 import com.studio.ember.mvvm_training.utils.helper.ItemTouchHelperAdapter;
 import com.studio.ember.mvvm_training.utils.helper.ItemTouchHelperViewHolder;
 
@@ -63,7 +65,6 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoVi
                     return true;
                 }
             });
-
 
         }
 
@@ -128,6 +129,11 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoVi
         @BindView(R.id.iv_handle)
         ImageView iv_handle;
 
+        @BindView(R.id.tv_date)
+        TextView tv_date;
+
+        @BindView(R.id.tv_date_label)
+        TextView tv_date_label;
 
         private ToDoViewHolder(View itemView) {
             super(itemView);
@@ -138,6 +144,11 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoVi
         void setItem(ToDo todo){
             this.cb_todo.setChecked(todo.isDone());
             this.et_todo_task.setText(todo.getTask());
+            this.tv_date.setText(Utils.getDateFormated(todo.getCreationDate()));
+            /*if(todo.isEdited()) {
+                this.tv_date.setText(String.valueOf(todo.getEditDate()));
+                this.tv_date_label.setText(R.string.edited);
+            }*/
         }
 
         @OnCheckedChanged(R.id.cb_todo)
@@ -145,12 +156,19 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoVi
             ToDo todo = toDos.get(getAdapterPosition());
             todo.setDone(checked);
             this.et_todo_task.setEnabled(!todo.isDone());
+            iv_handle.setEnabled(!todo.isDone());
+            if (todo.isDone()) {
+                iv_handle.setVisibility(View.INVISIBLE);
+            } else {
+                iv_handle.setVisibility(View.VISIBLE);
+            }
             paintFlag(et_todo_task, checked);
         }
 
-        @OnTextChanged(value = R.id.et_todo_task)
+        @OnTextChanged(value = R.id.et_todo_task, callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
         void setTaskText(Editable editable){
-            toDos.get(getAdapterPosition()).setTask(editable.toString());
+            ToDo toDo = toDos.get(getAdapterPosition());
+            toDo.setTask(editable.toString());
         }
 
         @Override

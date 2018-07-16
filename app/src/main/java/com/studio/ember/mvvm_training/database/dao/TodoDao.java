@@ -33,4 +33,7 @@ public interface TodoDao {
 
     @Delete
     void delete(ToDo toDo);
+
+    @Delete
+    void deleteToDos(ToDo... toDos);
 }

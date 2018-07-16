@@ -17,7 +17,7 @@ import com.studio.ember.mvvm_training.database.entities.ToDo;
         entities = {
                 ToDo.class
         },
-        version = 1
+        version = 3
 )
 public abstract class TodoDatabase extends RoomDatabase {
 
@@ -37,11 +37,9 @@ public abstract class TodoDatabase extends RoomDatabase {
         if (INSTANCE == null) {
             synchronized (TodoDatabase.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = Room.databaseBuilder(
-                            context.getApplicationContext(),
-                            TodoDatabase.class,
-                            "todo_database")
+                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(),TodoDatabase.class,"todo_database")
                             .addCallback(sRoomDatabaseCallback)
+                            .fallbackToDestructiveMigration()
                             .build();
                 }
             }
@@ -62,7 +60,6 @@ public abstract class TodoDatabase extends RoomDatabase {
         @Override
         protected Void doInBackground(Void... voids) {
             // TODO: add delete method in TodoDao
-            //mDao.deleteAll();
             return null;
         }
     }

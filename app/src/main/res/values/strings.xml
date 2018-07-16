@@ -3,4 +3,6 @@
     <string name="button_save">Save</string>
     <string name="new_to_do">New To-do</string>
     <string name="new_task">New Task</string>
+    <string name="created">created</string>
+    <string name="edited">edited</string>
 </resources>
