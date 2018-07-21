@@ -96,9 +96,9 @@ public class ToDoActivity extends AppCompatActivity implements TodoListAdapter.T
 
 
     @Override
-    public void onItemDeleted(ToDo toDo) {
-        todoViewModel.delete(toDo);
-        //todoViewModel.update(adapter.getToDos());
+    public void onItemDeleted(int position) {
+        //todoViewModel.delete(toDo);
+        todoViewModel.update(adapter.getToDos());
 
     }
 

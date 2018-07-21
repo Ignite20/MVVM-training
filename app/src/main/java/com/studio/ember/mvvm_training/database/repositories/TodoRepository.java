@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import com.studio.ember.mvvm_training.database.TodoDatabase;
 import com.studio.ember.mvvm_training.database.dao.TodoDao;
 import com.studio.ember.mvvm_training.database.entities.ToDo;
-import com.studio.ember.mvvm_training.utils.Utils;
 
 import java.util.List;
 
@@ -74,18 +73,13 @@ public class TodoRepository {
 
         @Override
         protected Void doInBackground(List<ToDo>... lists) {
+            mAsyncTaskDao.deleteAll();
             for (int i = 0; i < lists[0].size(); i++) {
+
                 ToDo todo = lists[0].get(i);
-                if(!todo.isDeleted()) {
-                    if (todo.getEditDate() > 0) {
-                        todo.setEdited(true);
-                        todo.setEditDate(Utils.getDateMiliseconds());
-                    }
-                    todo.setTaskOrder(i);
-                    mAsyncTaskDao.update(todo);
-                }else{
-                    mAsyncTaskDao.delete(todo);
-                }
+                todo.setTaskOrder(i);
+                mAsyncTaskDao.insert(todo);
+
             }
             return null;
         }

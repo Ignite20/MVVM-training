@@ -20,7 +20,7 @@ public interface TodoDao {
      *
      * @param todo object to be inserted
      */
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(ToDo todo);
 
 
@@ -30,6 +30,9 @@ public interface TodoDao {
 
     @Query("SELECT * FROM todo_table WHERE deleted = 0 ORDER BY task_order ASC")
     LiveData<List<ToDo>> getAllTodos();
+
+    @Query("DELETE FROM todo_table")
+    void deleteAll();
 
     @Delete
     void delete(ToDo toDo);

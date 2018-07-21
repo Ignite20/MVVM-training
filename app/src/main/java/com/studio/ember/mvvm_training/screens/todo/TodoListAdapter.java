@@ -80,8 +80,16 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoVi
     }
 
     void setToDos(List<ToDo> toDoList){
-        toDos = toDoList;
-        notifyDataSetChanged();
+        //toDos = new ArrayList<>();
+        if(toDos == null){
+            toDos = toDoList;
+            notifyDataSetChanged();
+        }else if(toDoList.size() > toDos.size()){
+            toDos.add(toDoList.get(toDoList.size()-1));
+            notifyItemRangeInserted(toDos.size(),toDoList.size());
+        }
+
+
     }
 
     List<ToDo> getToDos(){
@@ -100,10 +108,10 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoVi
 
     @Override
     public void onItemDismiss(int position) {
-        toDos.get(position).setDeleted(true);
+        //toDos.get(position).setDeleted(true);
         toDos.remove(position);
         notifyItemRemoved(position);
-        listener.onItemDeleted(toDos.get(position));
+        //listener.onItemDeleted(position);
 
     }
 
@@ -115,7 +123,7 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoVi
          */
         void onStartDrag(RecyclerView.ViewHolder viewHolder);
 
-        void onItemDeleted(ToDo toDo);
+        void onItemDeleted(int position);
     }
 
 
