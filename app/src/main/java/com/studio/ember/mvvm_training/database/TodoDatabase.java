@@ -17,7 +17,7 @@ import com.studio.ember.mvvm_training.database.entities.ToDo;
         entities = {
                 ToDo.class
         },
-        version = 3
+        version = 5
 )
 public abstract class TodoDatabase extends RoomDatabase {
 

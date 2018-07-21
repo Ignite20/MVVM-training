@@ -28,7 +28,7 @@ public interface TodoDao {
     void update(ToDo todo);
 
 
-    @Query("SELECT * FROM todo_table ORDER BY task_order ASC")
+    @Query("SELECT * FROM todo_table WHERE deleted = 0 ORDER BY task_order ASC")
     LiveData<List<ToDo>> getAllTodos();
 
     @Delete

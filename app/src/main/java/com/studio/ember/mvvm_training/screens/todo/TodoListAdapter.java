@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.util.Log;
@@ -99,7 +100,11 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoVi
 
     @Override
     public void onItemDismiss(int position) {
+        toDos.get(position).setDeleted(true);
+        toDos.remove(position);
+        notifyItemRemoved(position);
         listener.onItemDeleted(toDos.get(position));
+
     }
 
     interface TaskListener{
@@ -112,6 +117,8 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoVi
 
         void onItemDeleted(ToDo toDo);
     }
+
+
 
     /**
      * To-do ViewHolder
@@ -135,20 +142,24 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoVi
         @BindView(R.id.tv_date_label)
         TextView tv_date_label;
 
+        @BindView(R.id.item_layout)
+        ConstraintLayout item_layout;
+
+
         private ToDoViewHolder(View itemView) {
             super(itemView);
             this.view = itemView;
+            //item_layout.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
             ButterKnife.bind(this,view);
         }
 
         void setItem(ToDo todo){
-            this.cb_todo.setChecked(todo.isDone());
-            this.et_todo_task.setText(todo.getTask());
-            this.tv_date.setText(Utils.getDateFormated(todo.getCreationDate()));
-            /*if(todo.isEdited()) {
-                this.tv_date.setText(String.valueOf(todo.getEditDate()));
-                this.tv_date_label.setText(R.string.edited);
-            }*/
+            if(!todo.isDeleted()) {
+                this.cb_todo.setChecked(todo.isDone());
+                this.et_todo_task.setText(todo.getTask());
+                this.tv_date.setText(Utils.getDateFormated(todo.getCreationDate()));
+
+            }
         }
 
         @OnCheckedChanged(R.id.cb_todo)

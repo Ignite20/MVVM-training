@@ -27,6 +27,8 @@ public class ToDo extends BaseModel{
     private long editDate;
 
     private boolean isEdited;
+
+    private boolean deleted;
     // endregion FIELDS
 
     /**
@@ -37,6 +39,7 @@ public class ToDo extends BaseModel{
         this.task = task;
         this.isEdited = false;
         this.creationDate = new GregorianCalendar().getTimeInMillis();
+        this.deleted = false;
     }
 
     public void setId(int id) {
@@ -93,5 +96,13 @@ public class ToDo extends BaseModel{
 
     public void setEdited(boolean edited) {
         isEdited = edited;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -58,7 +57,6 @@ public class ToDoActivity extends AppCompatActivity implements TodoListAdapter.T
         rv_todo_list.setAdapter(adapter);
         rv_todo_list.setLayoutManager(this.linearLayoutManager);
 
-
         // Set ItemTouchHelper
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
         mItemTouchHelper = new ItemTouchHelper(callback);
@@ -100,9 +98,9 @@ public class ToDoActivity extends AppCompatActivity implements TodoListAdapter.T
     @Override
     public void onItemDeleted(ToDo toDo) {
         todoViewModel.delete(toDo);
+        //todoViewModel.update(adapter.getToDos());
+
     }
-
-
 
     @Override
     protected void onStop() {
@@ -110,13 +108,6 @@ public class ToDoActivity extends AppCompatActivity implements TodoListAdapter.T
         todoViewModel.update(adapter.getToDos());
         super.onStop();
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
-
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
@@ -135,18 +126,11 @@ public class ToDoActivity extends AppCompatActivity implements TodoListAdapter.T
         View v = getCurrentFocus();
         if ( v instanceof EditText) {
             if (!isPointInsideView(event.getRawX(), event.getRawY(), v)) {
-                Log.i("ET", "!isPointInsideView");
-
-                Log.i("ET", "dispatchTouchEvent clearFocus");
                 v.clearFocus();
                 hideKeyboard(v);
             }
         }else if(v instanceof RecyclerView){
             if (isPointInsideView(event.getRawX(), event.getRawY(), v)) {
-                Log.i("RV", "!isPointInsideView");
-
-                Log.i("RV", "dispatchTouchEvent clearFocus");
-
                 hideKeyboard(v);
             }
         }
@@ -167,4 +151,6 @@ public class ToDoActivity extends AppCompatActivity implements TodoListAdapter.T
         else
             return false;
     }
+
+
 }

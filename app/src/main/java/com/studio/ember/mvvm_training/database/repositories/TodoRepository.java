@@ -76,12 +76,16 @@ public class TodoRepository {
         protected Void doInBackground(List<ToDo>... lists) {
             for (int i = 0; i < lists[0].size(); i++) {
                 ToDo todo = lists[0].get(i);
-                if(todo.getEditDate() > 0){
-                    todo.setEdited(true);
-                    todo.setEditDate(Utils.getDateMiliseconds());
+                if(!todo.isDeleted()) {
+                    if (todo.getEditDate() > 0) {
+                        todo.setEdited(true);
+                        todo.setEditDate(Utils.getDateMiliseconds());
+                    }
+                    todo.setTaskOrder(i);
+                    mAsyncTaskDao.update(todo);
+                }else{
+                    mAsyncTaskDao.delete(todo);
                 }
-                todo.setTaskOrder(i);
-                mAsyncTaskDao.update(todo);
             }
             return null;
         }
