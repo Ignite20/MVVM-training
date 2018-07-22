@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:animateLayoutChanges="true"
-
     >
 
     <ImageView
@@ -36,12 +35,13 @@
         style="@style/to_do_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:backgroundTint="@android:color/transparent"
         android:elegantTextHeight="true"
         android:inputType="textMultiLine"
-        android:text="asdasdas asd as das dasdsadsa as asas dasd asd asdasdasd asdasdasdasdas as dasd asd asd as dasd sasd asd asdasdasd asdasdasdasdas as dasd asd asd as dasd asd asd asdasdasd asdasdasdasdas as dasd asd asd as dasd  das das asd"
+        android:text="asdasdassadsa as"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/iv_notification"
         app:layout_constraintStart_toEndOf="@+id/cb_todo"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -68,6 +68,19 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tv_date"
         app:layout_constraintTop_toBottomOf="@+id/et_todo_task" />
+
+    <ImageView
+        android:id="@+id/iv_notification"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:focusable="true"
+        app:srcCompat="@drawable/ic_notifications_none_black_24dp" />
 
 
 </android.support.constraint.ConstraintLayout>

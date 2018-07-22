@@ -15,9 +15,9 @@ import com.studio.ember.mvvm_training.database.entities.ToDo;
 
 @Database(
         entities = {
-                ToDo.class
+            ToDo.class
         },
-        version = 5
+        version = 6
 )
 public abstract class TodoDatabase extends RoomDatabase {
 
@@ -59,7 +59,7 @@ public abstract class TodoDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            // TODO: add delete method in TodoDao
+
             return null;
         }
     }

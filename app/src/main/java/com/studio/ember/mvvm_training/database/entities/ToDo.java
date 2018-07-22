@@ -5,8 +5,6 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-import java.util.GregorianCalendar;
-
 @Entity(tableName = "todo_table")
 public class ToDo extends BaseModel{
 
@@ -22,9 +20,7 @@ public class ToDo extends BaseModel{
 
     private boolean done;
 
-    private long creationDate;
-
-    private long editDate;
+    private long expiringDate;
 
     private boolean isEdited;
 
@@ -38,7 +34,6 @@ public class ToDo extends BaseModel{
     public ToDo(String task) {
         this.task = task;
         this.isEdited = false;
-        this.creationDate = new GregorianCalendar().getTimeInMillis();
         this.deleted = false;
     }
 
@@ -74,20 +69,12 @@ public class ToDo extends BaseModel{
         this.done = done;
     }
 
-    public long getCreationDate() {
-        return creationDate;
+    public long getExpiringDate() {
+        return expiringDate;
     }
 
-    public void setCreationDate(long creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    public long getEditDate() {
-        return editDate;
-    }
-
-    public void setEditDate(long editDate) {
-        this.editDate = editDate;
+    public void setExpiringDate(long expiringDate) {
+        this.expiringDate = expiringDate;
     }
 
     public boolean isEdited() {

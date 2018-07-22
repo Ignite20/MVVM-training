@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.util.Log;
@@ -19,10 +18,10 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.studio.ember.mvvm_training.R;
 import com.studio.ember.mvvm_training.database.entities.ToDo;
-import com.studio.ember.mvvm_training.utils.Utils;
 import com.studio.ember.mvvm_training.utils.helper.ItemTouchHelperAdapter;
 import com.studio.ember.mvvm_training.utils.helper.ItemTouchHelperViewHolder;
 
@@ -31,6 +30,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
+import butterknife.OnClick;
 import butterknife.OnTextChanged;
 
 public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoViewHolder> implements ItemTouchHelperAdapter {
@@ -150,8 +150,9 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoVi
         @BindView(R.id.tv_date_label)
         TextView tv_date_label;
 
-        @BindView(R.id.item_layout)
-        ConstraintLayout item_layout;
+        @BindView(R.id.iv_notification)
+        ImageView iv_notification;
+
 
 
         private ToDoViewHolder(View itemView) {
@@ -165,8 +166,6 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoVi
             if(!todo.isDeleted()) {
                 this.cb_todo.setChecked(todo.isDone());
                 this.et_todo_task.setText(todo.getTask());
-                this.tv_date.setText(Utils.getDateFormated(todo.getCreationDate()));
-
             }
         }
 
@@ -182,6 +181,12 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoVi
                 iv_handle.setVisibility(View.VISIBLE);
             }
             paintFlag(et_todo_task, checked);
+        }
+
+        @OnClick(R.id.iv_notification)
+        void onNotificationBellClicked(){
+            // TODO: Add listener to create alarm for the clicked bell
+            Toast.makeText((Context) listener, "bell clicked: "+getAdapterPosition(), Toast.LENGTH_SHORT).show();
         }
 
         @OnTextChanged(value = R.id.et_todo_task, callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
