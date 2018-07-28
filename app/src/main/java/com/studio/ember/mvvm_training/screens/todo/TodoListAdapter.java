@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.studio.ember.mvvm_training.R;
 import com.studio.ember.mvvm_training.database.entities.ToDo;
+import com.studio.ember.mvvm_training.utils.CalendarHelper;
 import com.studio.ember.mvvm_training.utils.helper.ItemTouchHelperAdapter;
 import com.studio.ember.mvvm_training.utils.helper.ItemTouchHelperViewHolder;
 
@@ -187,6 +188,9 @@ public class TodoListAdapter extends RecyclerView.Adapter<TodoListAdapter.ToDoVi
         void onNotificationBellClicked(){
             // TODO: Add listener to create alarm for the clicked bell
             Toast.makeText((Context) listener, "bell clicked: "+getAdapterPosition(), Toast.LENGTH_SHORT).show();
+            CalendarHelper helper = new CalendarHelper((Context) listener);
+            //helper.getCalendarInfo();
+            helper.addReminder();
         }
 
         @OnTextChanged(value = R.id.et_todo_task, callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)

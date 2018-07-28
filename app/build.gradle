@@ -34,13 +34,10 @@ dependencies {
     annotationProcessor "android.arch.persistence.room:compiler:$room_version"
     // Paging
     implementation "android.arch.paging:runtime:$paging_version"
-    // Navigation
-    implementation "android.arch.navigation:navigation-fragment:$nav_version"
-    // use -ktx for Kotlin
-    implementation "android.arch.navigation:navigation-ui:$nav_version"
+
     // use -ktx for Kotlin
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:appcompat-v7:27.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
@@ -50,4 +47,11 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     // GSON
     implementation 'com.google.code.gson:gson:2.8.5'
+
+    // Material Dialog
+    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
+    implementation 'com.afollestad.material-dialogs:commons:0.9.6.0'
+
+    // Google Play Services
+    implementation 'com.google.android.gms:play-services-auth:15.0.1'
 }

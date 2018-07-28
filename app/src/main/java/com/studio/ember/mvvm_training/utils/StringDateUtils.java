@@ -4,7 +4,7 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 
-public class Utils {
+public class StringDateUtils {
 
     private static SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
